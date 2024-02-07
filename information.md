@@ -21,3 +21,20 @@
 - We have kept the routes in a separate file `routes.go`. A benifit to this is that we can easily access the
   routes during the tests.
 - To get the parameters, we use the `ParamsFromContext()` function from the URL.
+
+## Print variations in Go
+
+Reference - https://pkg.go.dev/fmt
+
+- `Println` - Write to std output and newline is appended.
+- `Printf` - Format the string as per specified formatter and print to std output.
+- `Sprintf` - Similar to `Printf` but _returns_ the formatted string instead of printing to the std output.
+- `Fprintf` - Similar to `Printf` and `Sprintf` but allows to specify the destination where the string should
+  should be written.
+
+## Working with JSON
+
+- We have used `json.Marshal` to encode the objects in JSON format.
+  We could use `json.Encoder` instead but it gets harder to set the headers with that.
+
+- Currently, `internal/data/movies.go` has the struct for the Movies which are sent back.
