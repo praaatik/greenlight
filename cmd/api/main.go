@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gofor-little/env"
 	_ "github.com/lib/pq"
 )
 
@@ -36,11 +37,19 @@ type application struct {
 func main() {
 	var cfg config
 
+	if err := env.Load(".env.dev"); err != nil {
+		panic(err)
+	}
+
+	db_url := env.Get("GREENLIGHT_DB_URL", "")
+	fmt.Println(db_url)
+
 	// read the value of the port and env in the command line flags
 	// default values are being set to 4000/development if nothing is provided
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
-	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "PostgreSQL DSN")
+	// flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "PostgreSQL DSN")
+	flag.StringVar(&cfg.db.dsn, "db-dsn", db_url, "PostgreSQL DSN")
 
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
