@@ -10,7 +10,10 @@ run_dev:
 	@echo "Starting the development server.."
 	@go run cmd/api/*.go
 
-# get_one_movie:
-# 	@echo "Running http://localhost:4000/v1/movies/1"
-# 	@http $(API_URL)/movies/1
+migrate_up:
+	@echo "Running migration up"
+	@migrate -path=./migrations -database='postgresql://pratik:password@localhost/greenlight?sslmode=disable' up
 
+migrate_down:
+	@echo "Running migration down"
+	@migrate -path=./migrations -database='postgresql://pratik:password@localhost/greenlight?sslmode=disable' down
